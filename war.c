@@ -1,7 +1,7 @@
 // ============================================================================
 //         PROJETO WAR ESTRUTURADO - DESAFIO DE CÓDIGO
 // ============================================================================
-//        
+//
 // ============================================================================
 //
 // OBJETIVOS:
@@ -24,18 +24,20 @@
 #define MAX_TERRITORIO 50
 #define TAM_STRING 100
 
-
 // --- Estrutura de Dados ---
 // Define a estrutura para um território, contendo seu nome, a cor do exército que o domina e o número de tropas.
-struct territorio {
+struct territorio
+{
     char nome[TAM_STRING];
     char cor[TAM_STRING];
     int numTropas;
 };
 // Função para limpar o buffer de entrada ---
-void limparBufferEntrada() {
+void limparBufferEntrada()
+{
     int c;
-    while ((c = getchar()) != '\n' && c != EOF);
+    while ((c = getchar()) != '\n' && c != EOF)
+        ;
 }
 
 // --- Protótipos das Funções ---
@@ -47,14 +49,16 @@ void limparBufferEntrada() {
 
 // --- Função Principal (main) ---
 // Função principal que orquestra o fluxo do jogo, chamando as outras funções em ordem.
-int main() {
+int main()
+{
     struct territorio tabuleiro[MAX_TERRITORIO];
     int totalTerritorio = 0;
     int opcao;
 
     // --- Laço principal do menu ---
-    do {
-        //Exibe o menu de opções
+    do
+    {
+        // Exibe o menu de opções
         printf("=============================\n");
         printf(" Cadastrar os 5 territorios iniciais \n");
         printf("=============================\n");
@@ -68,67 +72,76 @@ int main() {
         scanf("%d", &opcao);
         limparBufferEntrada(); // Limpa o'\n' deixando pelo scanf
 
-        switch (opcao) {
-            case 1: // Cadastro de territorio
-            printf("--- Cadastro de Novo Territorio ---\n\n");
+        switch (opcao)
+        {
+        case 1: // Cadastro de territorios (5 de uma vez)
+            printf("--- Cadastro dos 5 Territorios Iniciais ---\n\n");
 
-            if(totalTerritorio < MAX_TERRITORIO) {
-                printf("Nome do territorio: ");
-                fgets(tabuleiro[totalTerritorio].nome, TAM_STRING, stdin);
+            if (totalTerritorio + 5 <= MAX_TERRITORIO)
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    printf("Cadastro do territorio %d:\n", totalTerritorio + 1);
 
-                printf("Cor do exercito: ");
-                fgets(tabuleiro[totalTerritorio].cor, TAM_STRING, stdin);
+                    printf("Nome do territorio: ");
+                    fgets(tabuleiro[totalTerritorio].nome, TAM_STRING, stdin);
 
-                tabuleiro[totalTerritorio].nome[strcspn(tabuleiro[totalTerritorio].nome, "\n")] = 0; // Remove o '\n' do final
-                tabuleiro[totalTerritorio].cor[strcspn(tabuleiro[totalTerritorio].cor, "\n")] = 0; // Remove o '\n' do final
-               
-                printf("Numero de tropas: ");
-                scanf("%d", &tabuleiro[totalTerritorio].numTropas);
-                limparBufferEntrada(); // Limpa o'\n' deixando pelo scanf
+                    printf("Cor do exercito: ");
+                    fgets(tabuleiro[totalTerritorio].cor, TAM_STRING, stdin);
 
-                totalTerritorio++;
+                    tabuleiro[totalTerritorio].nome[strcspn(tabuleiro[totalTerritorio].nome, "\n")] = 0;
+                    tabuleiro[totalTerritorio].cor[strcspn(tabuleiro[totalTerritorio].cor, "\n")] = 0;
 
-                printf("Territorio cadastrado com sucesso!\n");
-              } else {
+                    printf("Numero de tropas: ");
+                    scanf("%d", &tabuleiro[totalTerritorio].numTropas);
+                    limparBufferEntrada();
+
+                    totalTerritorio++; // avançamos no array
+
+                    printf("Territorio cadastrado com sucesso!\n\n");
+                }
+            }
+            else
+            {
                 printf("Limite de territorios atingido!\n");
             }
 
-            printf("\n Pressione ENTER para continuar...");
-            getchar(); // Pausa para o usuário ler a mensagem antes de voltar ao menu
+            printf("\nPressione ENTER para continuar...");
+            getchar();
             break;
-
-            case 2: // Listar territorios
+        case 2: // Listar territorios
             printf("--- Lista de Territorios ---\n\n");
-            if(totalTerritorio == 0) {
+            if (totalTerritorio == 0)
+            {
                 printf("Nenhum territorio cadastrado!\n");
-            } else {
-                for(int i = 0; i < totalTerritorio; i++) {
+            }
+            else
+            {
+                for (int i = 0; i < totalTerritorio; i++)
+                {
                     printf("-----------------------------\n");
                     printf("Territorio %d:\n", i + 1);
                     printf("Nome: %s\n", tabuleiro[i].nome);
                     printf("Cor do exercito: %s\n", tabuleiro[i].cor);
                     printf("Numero de tropas: %d\n", tabuleiro[i].numTropas);
-                    
                 }
                 printf("-----------------------------\n");
             }
-            
             // A pausa é crucial para que o usuário veja a lista antes
             // do próximo loop limpar a tela
             printf("\nPressione ENTER para continuar...");
             getchar();
             break;
 
-            case 0: // Sair
+        case 0: // Sair
             printf("\n Saindo do Sistema...\n");
             break;
 
-            default: // Opção inválida
+        default: // Opção inválida
             printf("\nOpcao invalida! Tente novamente.\n");
             printf("\nPressione ENTER para continuar...");
             getchar();
             break;
-
         }
     } while (opcao != 0);
 
